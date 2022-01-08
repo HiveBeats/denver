@@ -45,8 +45,7 @@ int main(int argc, char* argv[])
     parse_args(argc, argv, &env_filename, &tmp_filename);
 
     env_arr_t envs = get_env_variables(env_filename);
-
-
+    
     free_env(envs.array, envs.count);
     free(env_filename);
     free(tmp_filename);
