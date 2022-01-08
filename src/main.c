@@ -1,12 +1,15 @@
-#include <stdlib.h>
-#include <stdio.h>
+//env_reader.h
+//#include <stdlib.h>
+//#include <stdio.h>
+//#include <string.h>
+//
 #include <stdint.h>
 #include <stdbool.h>
 #include <errno.h>
 #include <math.h>
 //necessary
-#include <string.h>
 #include <unistd.h>
+#include "env_reader.h"
 
 void parse_args(int argc, char* argv[], char** env, char** template)
 {
@@ -41,9 +44,10 @@ int main(int argc, char* argv[])
     
     parse_args(argc, argv, &env_filename, &tmp_filename);
 
-    printf("env filename: %s\n", env_filename);
-    printf("template filename: %s\n", tmp_filename);
+    env_arr_t envs = get_env_variables(env_filename);
 
+
+    free_env(envs.array, envs.count);
     free(env_filename);
     free(tmp_filename);
     
