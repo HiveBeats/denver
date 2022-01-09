@@ -10,6 +10,7 @@
 //necessary
 #include <unistd.h>
 #include "env_reader.h"
+#include "templater.h"
 
 void parse_args(int argc, char* argv[], char** env, char** template)
 {
@@ -46,6 +47,8 @@ int main(int argc, char* argv[])
 
     env_arr_t envs = get_env_variables(env_filename);
     
+    process_template(tmp_filename, envs);
+
     free_env(envs.array, envs.count);
     free(env_filename);
     free(tmp_filename);
