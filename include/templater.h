@@ -17,11 +17,15 @@ envar_t* find_env(env_arr_t variables, const char* name)
 char* process_line(env_arr_t variables, const char* line)
 {
     char chr;
-    int i = 0, start_idx = 0, end_idx = 0, found = 0;
+    int i=0; 
+    int start_idx =0; 
+    int end_idx = 0;
+    int found = 0;
     int init_len = strlen(line);
     int new_len = init_len;
     char* result = malloc(init_len);
 
+    
     while(line[i] != '\0')
     {   
         //ищем старт темплейта
@@ -33,6 +37,7 @@ char* process_line(env_arr_t variables, const char* line)
                 i++;
             }
             end_idx = i;
+            
             //вытаскиваем имя темплейта
             char* name;
             name = malloc(sizeof(char) * ((end_idx - start_idx+2) + 1));
@@ -42,14 +47,16 @@ char* process_line(env_arr_t variables, const char* line)
                 name[ndx] = line[j];
                 ndx++;
             }
-
+            name[ndx]='\0';
             //получили значение на замену темплейту
             envar_t* env = find_env(variables, name);
             char* env_value = env->value;
-
+            
+            
             //конкатенируем...
             int right_len = strlen(line + end_idx + 1);
             int mid_len = strlen(env_value);
+
             if (found != 0) 
             {
                 int size = start_idx + mid_len + right_len + 1;
@@ -134,6 +141,7 @@ void process_template(const char* filename, env_arr_t variables)
         char* pstring = process_line(variables, strdup(fstring));
         //write
         fclose(fp);
+        
         
         FILE* f = fopen(filename, "w");
         if (f != NULL)
