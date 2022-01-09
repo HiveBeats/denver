@@ -62,6 +62,20 @@ char* cut_to_end(char* source)
     return buffer;
 }
 
+void cut_newline(char* source)
+{
+    int i = 0;
+    while(source[i] != '\n')
+    {
+        i++;
+    }
+
+    if (source[i + 1] == '\0')
+    {
+        source[i] = source[i+1];
+    }
+}
+
 #define LINE_MAX_LENGTH 1024
 
 envar_t** read_env_variables(FILE* fp, int count)
@@ -85,7 +99,7 @@ envar_t** read_env_variables(FILE* fp, int count)
                 var->name = strdup(strtok(cline, delim));
                 var->value = malloc(sizeof(char) * strlen(cline));
                 sprintf(var->value, "%s", cline+strlen(var->name) + 1);
-
+                cut_newline(var->value);
                 //printf("%s : %s \n", var->name, var->value);
                 array[j++] = var;
 

@@ -14,33 +14,16 @@ envar_t* find_env(env_arr_t variables, const char* name)
     }
 }
 
-/*
-char smth[] = "CREATE USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT}';";
-    
-    char* en;
-    char* del = "${}";
-    en = strdup(strtok(smth, del));
-    
-
-    while (en != NULL) {
-        printf("%s \n",en);
-        en = strtok(NULL, del);
-    }
-    */
-
 char* process_line(env_arr_t variables, const char* line)
 {
     char chr;
-    int i = 0;
-    int start_idx = 0;
-    int end_idx = 0;
-    int found = 0;
+    int i = 0, start_idx = 0, end_idx = 0, found = 0;
     int init_len = strlen(line);
     int new_len = init_len;
     char* result = malloc(init_len);
+
     while(line[i] != '\0')
-    {
-        
+    {   
         //ищем старт темплейта
         if (line[i] == '$' && line[i+1] == '{')
         {
@@ -65,7 +48,7 @@ char* process_line(env_arr_t variables, const char* line)
             char* env_value = env->value;
 
             //конкатенируем...
-            int right_len = strlen(line + end_idx);
+            int right_len = strlen(line + end_idx + 1);
             int mid_len = strlen(env_value);
             if (found != 0) 
             {
@@ -75,25 +58,29 @@ char* process_line(env_arr_t variables, const char* line)
                     new_len = size;
                     result = (char *)realloc(result, size);
                 }
+                
+                char* lbuff = malloc(start_idx + 1);
+                strncpy(lbuff, result, start_idx);
+
                 char* buffer = malloc(size);
-                sprintf(buffer, "%s%s%s", result, env_value, line + end_idx);
+                sprintf(buffer, "%s%s%s", lbuff, env_value, line + end_idx + 1);
+                
                 result = strdup(buffer);
                 free(buffer);
-
-                //printf("%s \n", result);
+                free(lbuff);
             }
             else
             {
                 found = 1;
                 char* buffer = malloc(start_idx + 1);
                 strncpy(buffer, line, start_idx);
-                sprintf(result, "%s%s%s", buffer, env_value, line + end_idx);
+                sprintf(result, "%s%s%s", buffer, env_value, line + end_idx + 1);
+                
                 free(buffer);
 
-                //printf("%s \n", result);
+                line = result;
             }
 
-            //чистимся 
             free(name);
         }
         i++;
@@ -116,7 +103,7 @@ char* fill_file_buffer(FILE* fp)
         buffer[i] = fgetc(fp);
         i++;
     }
-    buffer[i] = '\0';
+    buffer[i-1] = '\0';
 
     char* result = strdup(buffer);
     free(buffer);
@@ -144,22 +131,21 @@ void process_template(const char* filename, env_arr_t variables)
         //read file
         char* fstring = fill_file_buffer(fp);
         //process
-        char* pstring = process_line(variables, fstring);
-        //printf("%s",pstring);
+        char* pstring = process_line(variables, strdup(fstring));
         //write
-        overwrite_file_content(fp, pstring);
+        fclose(fp);
+        
+        FILE* f = fopen(filename, "w");
+        if (f != NULL)
+        {
+            overwrite_file_content(f, pstring);
+            fclose(f);
+        }
 
         free(pstring);
         free(fstring);
     }
-    //для каждой строки
-    //читать символы в файле
-    //дойти до символа $
-    //если следующий символ {, то запомнить индекс символа доллар
-    //запомнить все символы до } в переменную env_name
-    //найти это значение
-    //от индекса отсчитать 2+ strlen(env_name) + 1
-    //удалить их и заменить на  value
+
     fclose(fp);
 }
 

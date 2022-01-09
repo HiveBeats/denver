@@ -1,0 +1,6 @@
+# create databases
+CREATE DATABASE IF NOT EXISTS `${MYSQL_DATABASE}`;
+
+# create root user and grant rights
+CREATE USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
