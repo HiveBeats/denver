@@ -3,6 +3,6 @@
 
 #include "env_reader.h"
 
-char* process_line(env_arr_t variables, const char* line);
+char* process_source(env_arr_t variables, const char* line);
 
 #endif

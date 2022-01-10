@@ -126,7 +126,7 @@ int main(void)
     char* template = read_template_file();
 
     //process
-    char* output = process_line(array, template);
+    char* output = process_source(array, template);
 
     //read reference output file
     char* reference_output = read_reference_output_file();

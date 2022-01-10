@@ -68,7 +68,7 @@ void process_template(const char* filename, env_arr_t variables)
     //read file
     char* fstring = fill_file_buffer(fp);
     //process
-    char* pstring = process_line(variables, strdup(fstring));
+    char* pstring = process_source(variables, strdup(fstring));
     //write
     fclose(fp);
     
