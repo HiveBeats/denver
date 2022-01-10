@@ -1,16 +1,16 @@
-#ifndef TEMPLATER_H_
-#define TEMPLATER_H_
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "template.h"
 
-#include "env_reader.h"
-
-char* process_line(env_arr_t variables, const char* line)
+static char* process_line(env_arr_t variables, const char* line)
 {
     int i=0; 
     int start_idx =0; 
     int end_idx = 0;
     int found = 0;
     int new_len = strlen(line);
-    char* result = malloc(new_len);
+    char* result = (char*)malloc(new_len);
     if (result == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
@@ -32,7 +32,7 @@ char* process_line(env_arr_t variables, const char* line)
             
             //вытаскиваем имя темплейта
             char* name;
-            name = malloc(sizeof(char) * ((end_idx - start_idx+2) + 1));
+            name = (char*)malloc(sizeof(char) * ((end_idx - start_idx+2) + 1));
             if (name == NULL)
             {
                 fprintf(stderr, "Can't allocate memory!\n");
@@ -74,7 +74,7 @@ char* process_line(env_arr_t variables, const char* line)
                     }
                 }
                 
-                char* lbuff = malloc(start_idx + 1);
+                char* lbuff = (char*)malloc(start_idx + 1);
                 if (lbuff == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
@@ -82,7 +82,7 @@ char* process_line(env_arr_t variables, const char* line)
                 }
                 strncpy(lbuff, result, start_idx);
 
-                char* buffer = malloc(size);
+                char* buffer = (char*)malloc(size);
                 if (buffer == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
@@ -102,7 +102,7 @@ char* process_line(env_arr_t variables, const char* line)
             else
             {
                 found = 1;
-                char* buffer = malloc(start_idx + 1);
+                char* buffer = (char*)malloc(start_idx + 1);
                 if (buffer == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
@@ -124,11 +124,11 @@ char* process_line(env_arr_t variables, const char* line)
     return result;
 }
 
-char* fill_file_buffer(FILE* fp)
+static char* fill_file_buffer(FILE* fp)
 {
     int d_size = 1024;
     int i = 0;
-    char* buffer = malloc(d_size);
+    char* buffer = (char*)malloc(d_size);
     if (buffer == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
@@ -140,7 +140,7 @@ char* fill_file_buffer(FILE* fp)
         if (i > d_size - 1)
         {
             d_size += 100;
-            buffer = realloc(buffer, d_size);
+            buffer = (char*)realloc(buffer, d_size);
             if (buffer == NULL)
             {
                 fprintf(stderr, "Can't allocate memory!\n");
@@ -164,7 +164,7 @@ char* fill_file_buffer(FILE* fp)
     return result;
 }
 
-void overwrite_file_content(FILE* fp, char* content)
+static void overwrite_file_content(FILE* fp, char* content)
 {
     int i = 0;
     fseek(fp, 0, SEEK_SET);
@@ -211,5 +211,3 @@ void process_template(const char* filename, env_arr_t variables)
 
     fclose(fp);
 }
-
-#endif

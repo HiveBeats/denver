@@ -1,16 +1,9 @@
-//env_reader.h
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <string.h>
-//
-#include <stdint.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <math.h>
-//necessary
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "env_reader.h"
-#include "templater.h"
+#include "template.h"
 
 void parse_args(int argc, char* argv[], char** env, char** template)
 {
