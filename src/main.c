@@ -26,10 +26,10 @@ void parse_args(int argc, char* argv[], char** env, char** template)
                 *template = strdup(optarg);
                 break;
             case ':':
-                printf("option needs a value\n");
+                fprintf(stderr, "option needs a value\n");
                 break;
             case '?':
-                printf("unknown option: %c\n", optopt);
+                fprintf(stderr, "unknown option: %c\n", optopt);
                 break;
             default:
                 break;
@@ -40,10 +40,14 @@ void parse_args(int argc, char* argv[], char** env, char** template)
 int main(int argc, char* argv[])
 {
     int opt;
-    char* env_filename;
-    char* tmp_filename;
+    char* env_filename = NULL;
+    char* tmp_filename = NULL;
     
     parse_args(argc, argv, &env_filename, &tmp_filename);
+    if (env_filename == NULL || tmp_filename == NULL)
+    {
+        exit(1);
+    }
 
     env_arr_t envs = get_env_variables(env_filename);
     

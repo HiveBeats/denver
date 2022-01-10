@@ -56,7 +56,11 @@ char* cut_to_end(char* source)
     int len = strlen(source);
 
     char* buffer = malloc(sizeof(char) * len);
-
+    if (buffer == NULL)
+    {
+        fprintf(stderr, "Can't allocate memory!\n");
+        exit(1);
+    }
     buffer = strcpy(buffer, source);
 
     return buffer;
@@ -80,7 +84,18 @@ void cut_newline(char* source)
 
 envar_t** read_env_variables(FILE* fp, int count)
 {
+    if (count <= 0)
+    {
+        fprintf(stderr, "Env variables not exists?\n");
+        exit(1);
+    }
+
     envar_t** array = (envar_t**)malloc(sizeof(envar_t*) * count);
+    if (array == NULL)
+    {
+        fprintf(stderr, "Can't allocate memory!\n");
+        exit(1);
+    }
 
     const char* delim = "=";
     char *token;
@@ -95,12 +110,27 @@ envar_t** read_env_variables(FILE* fp, int count)
             {
                 char* cline = cut_to_end(&line);
                 envar_t* var = (envar_t*)malloc(sizeof(envar_t));
-                
+                if (var == NULL)
+                {
+                    fprintf(stderr, "Can't allocate memory!\n");
+                    exit(1);
+                }
+
                 var->name = strdup(strtok(cline, delim));
+                if (var->name == NULL)
+                {
+                    fprintf(stderr, "Can't allocate memory!\n");
+                    exit(1);
+                }
                 var->value = malloc(sizeof(char) * strlen(cline));
+                if (var->value == NULL)
+                {
+                    fprintf(stderr, "Can't allocate memory!\n");
+                    exit(1);
+                }
+
                 sprintf(var->value, "%s", cline+strlen(var->name) + 1);
                 cut_newline(var->value);
-                //printf("%s : %s \n", var->name, var->value);
                 array[j++] = var;
 
                 free(cline);
@@ -112,13 +142,13 @@ envar_t** read_env_variables(FILE* fp, int count)
 
 env_arr_t get_env_variables(const char* filename)
 {
-    FILE* fp = fopen(filename, "r");
-
     env_arr_t result;
+
+    FILE* fp = fopen(filename, "r");
     if (fp == NULL)
     {
-        //stderr
-        return result;
+        fprintf(stderr, "Can't open env file\n");
+        exit(1);
     }
 
     result.count = get_variables_count(fp);
