@@ -1,0 +1,1 @@
+clang -o testproc -I/usr/local/include -L/usr/local/lib -I./include ./src/env_reader.c ./src/processor.c ./src/test_processor.c -std=c11 -pedantic && ./testproc
