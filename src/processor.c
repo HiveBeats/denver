@@ -3,17 +3,32 @@
 #include <string.h>
 #include "processor.h"
 
-char* process_source(env_arr_t variables, const char* source)
+static char* concatn_things(char* attach1, char* attach2, char* attach3)
 {
-    int start_idx = 0, end_idx = 0;
-    int new_len = strlen(source);
-    char* result = (char*)malloc(new_len);
-    if (result == NULL)
+    size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
+    printf("%d \n", sum_size);
+    char* buffer = (char*)malloc(sum_size);
+    if (buffer == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
         exit(1);
     }
+    sprintf(buffer, "%s%s%s", attach1, attach2, attach3);
     
+    return buffer;
+}
+
+char* process_source(env_arr_t variables, const char* source)
+{
+    int start_idx = 0, end_idx = 0;
+    int new_len = strlen(source);
+    // char* result = (char*)malloc(new_len);
+    // if (result == NULL)
+    // {
+    //     fprintf(stderr, "Can't allocate memory!\n");
+    //     exit(1);
+    // }
+    //printf("%s\n", source);
     //ищем старт темплейта
     char* sign = strchr(source, '$');
     if (sign != NULL && sign[1] == '{')
@@ -64,7 +79,8 @@ char* process_source(env_arr_t variables, const char* source)
         }
 
         strncpy(buffer, source, start_idx);
-        sprintf(result, "%s%s%s", buffer, env_value, source + end_idx + 1);
+        char* result = concatn_things(buffer, env_value, source + end_idx + 1);
+        //sprintf(result, "%s%s%s", buffer, env_value, source + end_idx + 1);
         
         free(buffer);
         free(name);

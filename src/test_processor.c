@@ -34,7 +34,7 @@ env_arr_t create_env_array()
         exit(1);
     }
     array[0] = create_env("MYSQL_DATABASE", "test");
-    array[1] = create_env("MYSQL_ROOT_PASSWORD", "password");
+    array[1] = create_env("MYSQL_ROOT_PASSWORD", "passwordpasswordpasssomethinglong");
 
     result.array = array;
     result.count = 2;

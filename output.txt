@@ -2,5 +2,5 @@
 CREATE DATABASE IF NOT EXISTS `test`;
 
 # create root user and grant rights
-CREATE USER 'root'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'passwordpasswordpasssomethinglong';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
