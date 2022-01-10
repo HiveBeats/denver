@@ -29,7 +29,8 @@ char* process_line(env_arr_t variables, const char* line)
         exit(1);
     }
 
-    while(line[i] != '\0')
+    while(line[i] != '\0') //todo:use strchrnul instead of interating
+    /* http://all-ht.ru/inf/prog/c/func/strchrnul.html */
     {   
         //ищем старт темплейта
         if (line[i] == '$' && line[i+1] == '{')
