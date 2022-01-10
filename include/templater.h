@@ -3,18 +3,6 @@
 
 #include "env_reader.h"
 
-envar_t* find_env(env_arr_t variables, const char* name)
-{
-    for (int i = 0; i < variables.count; i++)
-    {
-        if (strcmp(name,variables.array[i]->name) == 0) 
-        {
-            return variables.array[i];
-        }
-    }
-    return NULL;
-}
-
 char* process_line(env_arr_t variables, const char* line)
 {
     int i=0; 
@@ -59,7 +47,7 @@ char* process_line(env_arr_t variables, const char* line)
             }
             name[ndx]='\0';
             //получили значение на замену темплейту
-            envar_t* env = find_env(variables, name);
+            env_t* env = find_env(variables, name);
             if (env == NULL)
             {
                 fprintf(stderr, "Env variable %s not found.", name);

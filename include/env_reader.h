@@ -9,21 +9,21 @@ typedef struct env_var
 {
     char* name;
     char* value;
-} envar_t;
+} env_t;
 
 typedef struct env_arr
 {
-    envar_t** array;
+    env_t** array;//todo: not store pointers to structs, but structs
     int count;
 } env_arr_t;
 
-void free_env_var(envar_t* var)
+void free_env_var(env_t* var)
 {
     free(var->name);
     free(var->value);
 }
 
-void free_env(envar_t* vars[], int count)
+void free_env(env_t* vars[], int count)
 {
     for (size_t i = 0; i < count; i++)
     {
@@ -82,7 +82,7 @@ void cut_newline(char* source)
 
 #define LINE_MAX_LENGTH 1024
 
-envar_t** read_env_variables(FILE* fp, int count)
+env_t** read_env_variables(FILE* fp, int count)
 {
     if (count <= 0)
     {
@@ -90,7 +90,7 @@ envar_t** read_env_variables(FILE* fp, int count)
         exit(1);
     }
 
-    envar_t** array = (envar_t**)malloc(sizeof(envar_t*) * count);
+    env_t** array = (env_t**)malloc(sizeof(env_t*) * count);
     if (array == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
@@ -109,7 +109,7 @@ envar_t** read_env_variables(FILE* fp, int count)
             if (fgets(line, sizeof(line), fp)) 
             {
                 char* cline = cut_to_end(&line);
-                envar_t* var = (envar_t*)malloc(sizeof(envar_t));
+                env_t* var = (env_t*)malloc(sizeof(env_t));
                 if (var == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
@@ -158,6 +158,19 @@ env_arr_t get_env_variables(const char* filename)
 
     return result;
 }
+
+env_t* find_env(env_arr_t variables, const char* name)
+{
+    for (int i = 0; i < variables.count; i++)
+    {
+        if (strcmp(name,variables.array[i]->name) == 0) 
+        {
+            return variables.array[i];
+        }
+    }
+    return NULL;
+}
+
 
 
 
