@@ -5,10 +5,7 @@
 
 static char* process_line(env_arr_t variables, const char* line)
 {
-    int i=0; 
-    int start_idx =0; 
-    int end_idx = 0;
-    int found = 0;
+    int i = 0, start_idx = 0, end_idx = 0, found = 0;
     int new_len = strlen(line);
     char* result = (char*)malloc(new_len);
     if (result == NULL)
