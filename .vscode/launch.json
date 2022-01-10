@@ -4,17 +4,29 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "(lldb) Запустить",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/denvlate",
-            "args": ["-e", ".env", "-t",  "template.txt"],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb"
-        }
+      {
+        "name": "Build and debug test project",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/testproc.out",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "lldb"
+      },
+      {
+        "name": "Launch (gdb)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/testproc.out",
+        "args": [],
+        "stopAtEntry": true,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "lldb"
+    }
     ]
-}
+  }

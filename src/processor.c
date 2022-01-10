@@ -13,7 +13,7 @@ char* process_line(env_arr_t variables, const char* line)
         fprintf(stderr, "Can't allocate memory!\n");
         exit(1);
     }
-
+    
     while(line[i] != '\0') //todo:use strchrnul instead of interating
     /* http://all-ht.ru/inf/prog/c/func/strchrnul.html */
     {   
@@ -52,71 +52,29 @@ char* process_line(env_arr_t variables, const char* line)
             }
             char* env_value = env->value;
             
-            
             //конкатенируем...
             int right_len = strlen(line + end_idx + 1);
             int mid_len = strlen(env_value);
-
-            if (found != 0) 
+            
+            found = 1;
+            char* buffer = (char*)malloc(start_idx + 1);
+            if (buffer == NULL)
             {
-                int size = start_idx + mid_len + right_len + 1;
-                if (size > new_len)
-                {
-                    new_len = size;
-                    result = (char *)realloc(result, size);
-                    if (result == NULL)
-                    {
-                        fprintf(stderr, "Can't allocate memory!\n");
-                        exit(1);
-                    }
-                }
-                
-                char* lbuff = (char*)malloc(start_idx + 1);
-                if (lbuff == NULL)
-                {
-                    fprintf(stderr, "Can't allocate memory!\n");
-                    exit(1);
-                }
-                strncpy(lbuff, result, start_idx);
-
-                char* buffer = (char*)malloc(size);
-                if (buffer == NULL)
-                {
-                    fprintf(stderr, "Can't allocate memory!\n");
-                    exit(1);
-                }
-                sprintf(buffer, "%s%s%s", lbuff, env_value, line + end_idx + 1);
-                
-                result = strdup(buffer);
-                if (result == NULL)
-                {
-                    fprintf(stderr, "Can't allocate memory!\n");
-                    exit(1);
-                }
-                free(buffer);
-                free(lbuff);
-            }
-            else
-            {
-                found = 1;
-                char* buffer = (char*)malloc(start_idx + 1);
-                if (buffer == NULL)
-                {
-                    fprintf(stderr, "Can't allocate memory!\n");
-                    exit(1);
-                }
-
-                strncpy(buffer, line, start_idx);
-                sprintf(result, "%s%s%s", buffer, env_value, line + end_idx + 1);
-                
-                free(buffer);
-
-                line = result;//todo: instead of that need to try a recursive solution
+                fprintf(stderr, "Can't allocate memory!\n");
+                exit(1);
             }
 
+            strncpy(buffer, line, start_idx);
+            sprintf(result, "%s%s%s", buffer, env_value, line + end_idx + 1);
+            
+            free(buffer);
             free(name);
+
+            result = process_line(variables, result);
+
+            break;
         }
         i++;
     }
-    return result;
+    return found == 0 ? line : result;
 }
