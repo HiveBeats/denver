@@ -23,6 +23,29 @@
           "kind": "build",
           "isDefault": true
         }
+      },
+      {
+        "type":"shell",
+        "label":"gcc build full",
+        "command": "/usr/bin/gcc",
+        "args":[
+          "-I/usr/local/include",
+          "-L/usr/local/lib",
+          "-I${workspaceFolder}/include",
+          "-g",
+          "-O0",
+          "${workspaceFolder}/src/env_reader.c",
+          "${workspaceFolder}/src/processor.c",
+          "${workspaceFolder}/src/template.c",
+          "${workspaceFolder}/src/main.c", "-o", "${workspaceFolder}/denvlate"],
+        "options": {
+          "cwd": "/usr/bin"
+        },
+        "problemMatcher":["$gcc"],
+        "group":{
+          "kind": "build",
+          "isDefault": false
+        }
       }
     ]
   }
