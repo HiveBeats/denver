@@ -6,7 +6,7 @@
 static char* concatn_things(char* attach1, char* attach2, char* attach3)
 {
     size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
-    printf("%d \n", sum_size);
+    
     char* buffer = (char*)malloc(sum_size);
     if (buffer == NULL)
     {
