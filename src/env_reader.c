@@ -42,7 +42,7 @@ static char* cut_to_end(char* source)
 {
     int len = strlen(source);
 
-    char* buffer = malloc(sizeof(char) * len);
+    char* buffer = malloc(sizeof(char) * len + 1);
     if (buffer == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
@@ -53,17 +53,19 @@ static char* cut_to_end(char* source)
     return buffer;
 }
 
-static void cut_newline(char* source)
+static void cut_newline(char** source)
 {
+    int len = strlen(*source);
     int i = 0;
-    while(source[i] != '\n')
+    while((*source)[i] != '\n')
     {
         i++;
     }
 
-    if (source[i + 1] == '\0')
+    if ((*source)[i + 1] == '\0')
     {
-        source[i] = source[i+1];
+        (*source)[i] = (*source)[i+1];
+        *source = (char*)realloc(*source, len);
     }
 }
 
@@ -95,7 +97,6 @@ static env_t** read_env_variables(FILE* fp, int count)
         {
             if (fgets(line, sizeof(line), fp)) 
             {
-                char* cline = cut_to_end(&line);
                 env_t* var = (env_t*)malloc(sizeof(env_t));
                 if (var == NULL)
                 {
@@ -103,24 +104,21 @@ static env_t** read_env_variables(FILE* fp, int count)
                     exit(1);
                 }
 
-                var->name = strdup(strtok(cline, delim));
+                var->name = strdup(strtok(line, delim));
                 if (var->name == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
                     exit(1);
                 }
-                var->value = malloc(sizeof(char) * strlen(cline));
+                var->value = malloc(sizeof(char) * strlen(line+strlen(var->name) + 1) + 1);
                 if (var->value == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
                     exit(1);
                 }
-
-                sprintf(var->value, "%s", cline+strlen(var->name) + 1);
-                cut_newline(var->value);
+                sprintf(var->value, "%s", line+strlen(var->name) + 1);
+                cut_newline(&(var->value));
                 array[j++] = var;
-
-                free(cline);
             }
         }
     }
