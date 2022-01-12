@@ -1,0 +1,51 @@
+name: build_release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_and_test:
+    name: Build and release denver for ${{ matrix.os }} with ${{ matrix.compiler }}.
+    #if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        compiler: [ g++-10 ]
+        include:
+          - os: ubuntu-latest
+            compiler: g++-10
+            target: Linux
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Run build
+        run: make
+      - name: version
+        run: echo "::set-output name=version::$(./bin/denver -v)"
+        id: version
+      - name: Zip to package
+        run: tar -czvf ./denver.linux-amd64.tar.gz ./bin/denver
+      # - name: release
+      #   uses: actions/create-release@v1
+      #   id: create_release
+      #   with:
+      #     draft: false
+      #     prerelease: false
+      #     release_name: ${{ steps.version.outputs.version }}
+      #     tag_name: ${{ github.ref }}
+      #     body_path: CHANGELOG.md
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      - name: upload linux artifact
+        uses: softprops/action-gh-release@v0.1.14
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ./denver.linux-x86-64.tar.gz
+          generate_release_notes: true
