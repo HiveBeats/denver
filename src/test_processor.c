@@ -75,7 +75,7 @@ char* parse_file(FILE* fp) {
 }
 
 char* read_template_file() {
-    FILE* fp = fopen("./template.txt", "r");
+    FILE* fp = fopen("./test/template.txt", "r");
     if (fp == NULL) {
         fprintf(stderr, "Can't open template file!\n");
         exit(1);
@@ -85,7 +85,7 @@ char* read_template_file() {
 }
 
 char* read_reference_output_file() {
-    FILE* fp = fopen("./output.txt", "r");
+    FILE* fp = fopen("./test/output.txt", "r");
     if (fp == NULL) {
         fprintf(stderr, "Can't open output file!\n");
         exit(1);
