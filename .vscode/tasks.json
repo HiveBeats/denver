@@ -37,7 +37,7 @@
           "${workspaceFolder}/src/env_reader.c",
           "${workspaceFolder}/src/processor.c",
           "${workspaceFolder}/src/template.c",
-          "${workspaceFolder}/src/main.c", "-o", "${workspaceFolder}/denvlate"],
+          "${workspaceFolder}/src/main.c", "-o", "${workspaceFolder}/denver"],
         "options": {
           "cwd": "/usr/bin"
         },

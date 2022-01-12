@@ -1,1 +1,2 @@
-# denvlate
+# denver
+[![cpp-linter](https://github.com/shenxianpeng/cpp-linter-action/actions/workflows/cpp-linter.yml/badge.svg)](https://github.com/HiveBeats/denvlate/blob/main/.github/workflows/cpp-linter.yaml)
