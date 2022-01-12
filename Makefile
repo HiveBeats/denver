@@ -11,7 +11,7 @@ OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 TEST_OBJ := $(TEST_SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CPPFLAGS := -MMD -MP -I/usr/local/include -L/usr/local/lib -I./include # -I is a preprocessor flag, not a compiler flag
-CFLAGS   := -Wall              # some warnings about bad code
+CFLAGS   := -Wall -O3              # some warnings about bad code
 LDFLAGS  := #-Llib              # -L is a linker flag
 LDLIBS   := #-lm                # Left empty if no libs are needed
 
