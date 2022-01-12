@@ -4,6 +4,8 @@ name: cpp-linter
 
 on:
   push:
+    branches:
+      - main
     paths-ignore: "release/"
   pull_request:
     paths-ignore: "release/"

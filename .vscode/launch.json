@@ -21,7 +21,7 @@
       "name": "Launch full (gdb)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/denvlate",
+      "program": "${workspaceFolder}/denver",
       "args": ["-e", ".env", "-t", "template.txt"],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
