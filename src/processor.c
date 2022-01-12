@@ -1,81 +1,78 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "processor.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-static char* concatn_things(char* attach1, char* attach2, char* attach3)
-{
+static char* concatn_things(char* attach1, char* attach2, char* attach3) {
     size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
-    
+
     char* buffer = (char*)malloc(sum_size);
-    if (buffer == NULL)
-    {
+    if (buffer == NULL) {
         fprintf(stderr, "Can't allocate memory!\n");
         exit(1);
     }
     sprintf(buffer, "%s%s%s", attach1, attach2, attach3);
-    
+
     return buffer;
 }
 
-char* process_source(env_arr_t variables, const char* source)
-{
-    int start_idx = 0, end_idx = 0;
-    
-    //ищем старт темплейта
+char* process_source(env_arr_t variables, const char* source) {
+    int start_idx = 0;
+    int end_idx = 0;
+
+    //search for a token
     char* sign = strchr(source, '$');
-    if (sign != NULL && sign[1] == '{')
-    {
-        start_idx = sign - source;
+    if (sign != NULL && sign[1] == '{') {
+        start_idx = (int)(sign - source);
+
         char* csign = strchr(sign, '}');
-        if (csign == NULL)
-        {
-            fprintf(stderr, "Unclosed template found on index: %d\n", start_idx);
+        if (csign == NULL) {
+            fprintf(stderr, "Unclosed template found on index: %d\n",
+                    start_idx);
             exit(1);
         }
-        end_idx = csign - source;
+        end_idx = (int)(csign - source);
 
-        //вытаскиваем имя темплейта
+        //get template variable name
         char* name;
         name = (char*)malloc(sizeof(char) * ((end_idx - start_idx + 2) + 1));
-        if (name == NULL)
-        {
+        if (name == NULL) {
             fprintf(stderr, "Can't allocate memory!\n");
             exit(1);
         }
 
         int ndx = 0;
-        for (int j = start_idx + 2; j < end_idx; j++)
-        {
+        for (int j = start_idx + 2; j < end_idx; j++) {
             name[ndx] = source[j];
             ndx++;
         }
-        name[ndx]='\0';
+        name[ndx] = '\0';
 
-        //получили значение на замену темплейту
+        //find environment variable value
         env_t* env = find_env(variables, name);
-        if (env == NULL)
-        {
+        if (env == NULL) {
             fprintf(stderr, "Env variable %s not found.", name);
             exit(1);
         }
         char* env_value = env->value;
-        
-        //конкатенируем...
+
+        //concat string for that template variable
         char* buffer = (char*)malloc(start_idx + 1);
-        if (buffer == NULL)
-        {
+        if (buffer == NULL) {
             fprintf(stderr, "Can't allocate memory!\n");
             exit(1);
         }
 
         strncpy(buffer, source, start_idx);
         char* result = concatn_things(buffer, env_value, source + end_idx + 1);
-        
+
         free(buffer);
         free(name);
 
+        //search and process for next token
         return process_source(variables, result);
     }
+    
+    //return if no token is found
     return source;
 }
