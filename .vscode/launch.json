@@ -5,28 +5,37 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "Build and debug test project",
+        "name": "Launch test (gdb)",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/testproc.out",
+        "program": "${workspaceFolder}/testproc",
         "args": [],
         "stopAtEntry": true,
         "cwd": "${workspaceFolder}",
         "environment": [],
         "externalConsole": false,
-        "MIMode": "lldb"
-      },
-      {
-        "name": "Launch (gdb)",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/testproc.out",
-        "args": [],
-        "stopAtEntry": true,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "lldb"
-    }
+        "preLaunchTask": "gcc build active file",
+        "MIMode": "gdb"
+    },
+    {
+      "name": "Launch full (gdb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/denvlate",
+      "args": ["-e", ".env", "-t", "template.txt"],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "gcc build full",
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+           "description": "Skip <path> files",
+           "text": "-interpreter-exec console \"skip -gfi /build/glibc-bfm8X4/glibc-2.23/\""
+        }
+     ]
+  }
+
     ]
   }

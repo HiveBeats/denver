@@ -4,28 +4,47 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "type": "shell",
-        "label": "clang build test",
-        "command": "/usr/bin/clang",
-        "args": [
-          "-std=c11",
+        "type":"shell",
+        "label":"gcc build test",
+        "command": "/usr/bin/gcc",
+        "args":[
           "-I/usr/local/include",
           "-L/usr/local/lib",
-          "-I./include",
+          "-I${workspaceFolder}/include",
+          "-g",
           "${workspaceFolder}/src/env_reader.c",
           "${workspaceFolder}/src/processor.c",
-          "${workspaceFolder}/src/test_processor.c",
-          "-pedantic",
-          "-o",
-          "${workspaceFolder}/testproc.out"
-        ],
+          "${workspaceFolder}/src/test_processor.c", "-o", "${workspaceFolder}/testproc"],
         "options": {
-          "cwd": "${workspaceFolder}"
+          "cwd": "/usr/bin"
         },
-        "problemMatcher": ["$gcc"],
-        "group": {
+        "problemMatcher":["$gcc"],
+        "group":{
           "kind": "build",
           "isDefault": true
+        }
+      },
+      {
+        "type":"shell",
+        "label":"gcc build full",
+        "command": "/usr/bin/gcc",
+        "args":[
+          "-I/usr/local/include",
+          "-L/usr/local/lib",
+          "-I${workspaceFolder}/include",
+          "-g",
+          "-O0",
+          "${workspaceFolder}/src/env_reader.c",
+          "${workspaceFolder}/src/processor.c",
+          "${workspaceFolder}/src/template.c",
+          "${workspaceFolder}/src/main.c", "-o", "${workspaceFolder}/denvlate"],
+        "options": {
+          "cwd": "/usr/bin"
+        },
+        "problemMatcher":["$gcc"],
+        "group":{
+          "kind": "build",
+          "isDefault": false
         }
       }
     ]

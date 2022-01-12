@@ -6,9 +6,9 @@
 
 static char* fill_file_buffer(FILE* fp)
 {
-    int d_size = 1024;
+    int d_size = 256;
     int i = 0;
-    char* buffer = (char*)malloc(d_size);
+    char* buffer = malloc(d_size);
     if (buffer == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
@@ -87,7 +87,4 @@ void process_template(const char* filename, env_arr_t variables)
 
     free(pstring);
     free(fstring);
-    
-
-    fclose(fp);
 }

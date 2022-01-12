@@ -47,6 +47,7 @@ int main(int argc, char* argv[])
     process_template(tmp_filename, envs);
 
     free_env(envs.array, envs.count);
+    free(envs.array);
     free(env_filename);
     free(tmp_filename);
     

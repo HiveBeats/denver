@@ -3,16 +3,24 @@
 #include <string.h>
 #include "processor.h"
 
-char* process_source(env_arr_t variables, const char* source)
+static char* concatn_things(char* attach1, char* attach2, char* attach3)
 {
-    int start_idx = 0, end_idx = 0;
-    int new_len = strlen(source);
-    char* result = (char*)malloc(new_len);
-    if (result == NULL)
+    size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
+    
+    char* buffer = (char*)malloc(sum_size);
+    if (buffer == NULL)
     {
         fprintf(stderr, "Can't allocate memory!\n");
         exit(1);
     }
+    sprintf(buffer, "%s%s%s", attach1, attach2, attach3);
+    
+    return buffer;
+}
+
+char* process_source(env_arr_t variables, const char* source)
+{
+    int start_idx = 0, end_idx = 0;
     
     //ищем старт темплейта
     char* sign = strchr(source, '$');
@@ -29,7 +37,7 @@ char* process_source(env_arr_t variables, const char* source)
 
         //вытаскиваем имя темплейта
         char* name;
-        name = (char*)malloc(sizeof(char) * ((end_idx - start_idx+2) + 1));
+        name = (char*)malloc(sizeof(char) * ((end_idx - start_idx + 2) + 1));
         if (name == NULL)
         {
             fprintf(stderr, "Can't allocate memory!\n");
@@ -43,6 +51,7 @@ char* process_source(env_arr_t variables, const char* source)
             ndx++;
         }
         name[ndx]='\0';
+
         //получили значение на замену темплейту
         env_t* env = find_env(variables, name);
         if (env == NULL)
@@ -53,9 +62,6 @@ char* process_source(env_arr_t variables, const char* source)
         char* env_value = env->value;
         
         //конкатенируем...
-        int right_len = strlen(source + end_idx + 1);
-        int mid_len = strlen(env_value);
-        
         char* buffer = (char*)malloc(start_idx + 1);
         if (buffer == NULL)
         {
@@ -64,7 +70,7 @@ char* process_source(env_arr_t variables, const char* source)
         }
 
         strncpy(buffer, source, start_idx);
-        sprintf(result, "%s%s%s", buffer, env_value, source + end_idx + 1);
+        char* result = concatn_things(buffer, env_value, source + end_idx + 1);
         
         free(buffer);
         free(name);
