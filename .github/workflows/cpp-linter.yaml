@@ -20,7 +20,7 @@ jobs:
         with:
           style: file
           extensions: c,h,C,H
-          tidy-checks: boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*
+          tidy-checks: boost-*,bugprone-*,performance-*,readability-*,portability-*,modernize-*,clang-analyzer-*,llvm-*,llvmlibc-*
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         run: |
