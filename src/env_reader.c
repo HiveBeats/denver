@@ -38,21 +38,6 @@ static int get_variables_count(FILE* fp)
     return count;
 }
 
-static char* cut_to_end(char* source)
-{
-    int len = strlen(source);
-
-    char* buffer = malloc(sizeof(char) * len + 1);
-    if (buffer == NULL)
-    {
-        fprintf(stderr, "Can't allocate memory!\n");
-        exit(1);
-    }
-    buffer = strcpy(buffer, source);
-
-    return buffer;
-}
-
 static void cut_newline(char** source)
 {
     int len = strlen(*source);
@@ -110,13 +95,16 @@ static env_t** read_env_variables(FILE* fp, int count)
                     fprintf(stderr, "Can't allocate memory!\n");
                     exit(1);
                 }
-                var->value = malloc(sizeof(char) * strlen(line+strlen(var->name) + 1) + 1);
+
+                char* value = line + strlen(var->name) + 1;
+
+                var->value = malloc(sizeof(char) * strlen(value) + 1);
                 if (var->value == NULL)
                 {
                     fprintf(stderr, "Can't allocate memory!\n");
                     exit(1);
                 }
-                sprintf(var->value, "%s", line+strlen(var->name) + 1);
+                sprintf(var->value, "%s", value);
                 cut_newline(&(var->value));
                 array[j++] = var;
             }
