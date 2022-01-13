@@ -59,7 +59,6 @@ static env_t** read_env_variables(FILE* fp, int count) {
     }
 
     const char* delim = "=";
-    char* token;
     int j = 0;
     char line[LINE_MAX_LENGTH];
 
