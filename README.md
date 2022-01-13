@@ -30,6 +30,18 @@ It was designed to work well for my docker-compose deployment of that <a href="h
 <!-- GETTING STARTED -->
 ## Getting Started
 
+### Install
+Download the latest binary from the releases page. For example, in order to download version 0.0.2 of this plugin run the following step:\
+```sh
+curl -LO https://github.com/HiveBeats/denver/releases/download/v0.0.2/denver.linux-amd64.tar.gz
+tar xfz denver.linux-amd64.tar.gz
+```
+
+Install the binary if you want to:
+```sh
+cp bin/denver /usr/bin/
+```
+### Usage
 To use this tool you need two things:
  - provide a path for .env file with *-e* argument
  - provide a path for template text file with *-t* argument
