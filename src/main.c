@@ -11,15 +11,17 @@
 
 void print_help() {
     printf("Fill template strings in your files with .env -formatted "
-           "values.\nUsage:\n");
+           "values.\n\nUsage:\n");
     printf("  denver [-e <arg>...] [-t <arg>...]\n");
-    printf("  denver -h\nOptions:\n");
+    printf("  denver -h\n\nOptions:\n");
     printf("  -e FILE                Specify a path to a .env file (can be "
-           "named differently)\n"
-           "                           ex: ./test/.env\n");
+           "named differently).\n"
+           "                           ex: ./test/.env\n\n");
     printf("  -t FILE                Specify a path to a template file (can be "
-           "named differently)\n"
-           "                           ex: ./test/template.txt\n");
+           "named differently).\n"
+           "                           ex: ./test/template.txt\n\n");
+    printf("  -h                     Get helpful usage information.\n\n");
+    printf("  -v                     Get current installed version.\n\n");
 }
 
 void print_ver() {
