@@ -9,13 +9,16 @@
 #define YEAR 2021
 #define AUTHOR "HiveBeats"
 
-void print_help() { 
-    printf("Fill template strings in your files with .env -formatted values.\nUsage:\n");
+void print_help() {
+    printf("Fill template strings in your files with .env -formatted "
+           "values.\nUsage:\n");
     printf("  denver [-e <arg>...] [-t <arg>...]\n");
     printf("  denver -h\nOptions:\n");
-    printf("  -e FILE                Specify a path to a .env file (can be named differently)\n"
+    printf("  -e FILE                Specify a path to a .env file (can be "
+           "named differently)\n"
            "                           ex: ./test/.env\n");
-    printf("  -t FILE                Specify a path to a template file (can be named differently)\n" 
+    printf("  -t FILE                Specify a path to a template file (can be "
+           "named differently)\n"
            "                           ex: ./test/template.txt\n");
 }
 
