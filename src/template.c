@@ -41,7 +41,7 @@ static char* fill_file_buffer(FILE* fp) {
     return result;
 }
 
-static void overwrite_file_content(FILE* fp, char* content) {
+static void overwrite_file_content(FILE* fp, const char* content) {
     int i = 0;
     fseek(fp, 0, SEEK_SET);
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char* concatn_things(char* attach1, char* attach2, char* attach3) {
+static char* concatn_things(const char* attach1, const char* attach2, const char* attach3) {
     size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
 
     char* buffer = (char*)malloc(sum_size);
@@ -74,5 +74,5 @@ char* process_source(env_arr_t variables, const char* source) {
     }
     
     //return if no token is found
-    return source;
+    return (char*)source;
 }
