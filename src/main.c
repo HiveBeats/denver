@@ -5,8 +5,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define VER "0.0.1"
-#define YEAR 2021
+#define VER "0.0.3"
+#define YEAR 2022
 #define AUTHOR "HiveBeats"
 #define DEFAULT_ENV ".env"
 
