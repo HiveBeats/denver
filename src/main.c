@@ -8,15 +8,16 @@
 #define VER "0.0.1"
 #define YEAR 2021
 #define AUTHOR "HiveBeats"
+#define DEFAULT_ENV ".env"
 
 void print_help() {
     printf("Fill template strings in your files with .env -formatted "
            "values.\n\nUsage:\n");
     printf("  denver [-e <arg>...] [-t <arg>...]\n");
     printf("  denver -h\n\nOptions:\n");
-    printf("  -e FILE                Specify a path to a .env file (can be "
-           "named differently).\n"
-           "                           ex: ./test/.env\n\n");
+    printf("  -e FILE                Specify a path to a .env file (default: "
+           "./.env)\n"
+           "                           ex: ./test/custom-env\n\n");
     printf("  -t FILE                Specify a path to a template file (can be "
            "named differently).\n"
            "                           ex: ./test/template.txt\n\n");
@@ -67,13 +68,18 @@ int main(int argc, char* argv[]) {
     char* tmp_filename = NULL;
 
     int ext = parse_args(argc, argv, &env_filename, &tmp_filename);
-    if (env_filename == NULL || tmp_filename == NULL) {
+    if (tmp_filename == NULL) {
         if (ext) {
             exit(0);
         } else {
-            fprintf(stderr, "Please, provide .env and template file path's\n");
+            fprintf(stderr, "Please, provide a template file path's\n");
             exit(1);
         }
+    }
+
+    if (env_filename == NULL) {
+        env_filename = malloc(sizeof(char) * strlen(DEFAULT_ENV) + 1);
+        env_filename = strcpy(env_filename, DEFAULT_ENV);
     }
 
     env_arr_t envs = get_env_variables(env_filename);
