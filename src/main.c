@@ -6,24 +6,51 @@
 #include <unistd.h>
 
 #define VER "0.0.1"
+#define YEAR 2021
+#define AUTHOR "HiveBeats"
+
+void print_help() {
+    printf("Fill template strings in your files with .env -formatted "
+           "values.\n\nUsage:\n");
+    printf("  denver [-e <arg>...] [-t <arg>...]\n");
+    printf("  denver -h\n\nOptions:\n");
+    printf("  -e FILE                Specify a path to a .env file (can be "
+           "named differently).\n"
+           "                           ex: ./test/.env\n\n");
+    printf("  -t FILE                Specify a path to a template file (can be "
+           "named differently).\n"
+           "                           ex: ./test/template.txt\n\n");
+    printf("  -h                     Get helpful usage information.\n\n");
+    printf("  -v                     Get current installed version.\n\n");
+}
+
+void print_ver() {
+    printf("denver %s\n", VER);
+    printf("Copyright (C) %d %s\n", YEAR, AUTHOR);
+    printf("License MIT\nThis is free software: you are free to change and "
+           "redistribute it.\n");
+    printf(
+        "The software is provided \"as is\", without warranty of any kind.\n");
+}
 
 int parse_args(int argc, char* argv[], char** env, char** template) {
-    int is_v = 0;
+    int is_exit = 0;
     int opt;
-    while ((opt = getopt(argc, argv, "e:t:v")) != -1) {
+    while ((opt = getopt(argc, argv, "e:t:vh")) != -1) {
         switch (opt) {
             case 'v':
-                printf("Current version: %s\n", VER);
-                is_v = 1;
+                print_ver();
+                is_exit = 1;
+                break;
+            case 'h':
+                print_help();
+                is_exit = 1;
                 break;
             case 'e':
                 *env = strdup(optarg);
                 break;
             case 't':
                 *template = strdup(optarg);
-                break;
-            case ':':
-                fprintf(stderr, "option needs a value\n");
                 break;
             case '?':
                 fprintf(stderr, "unknown option: %c\n", optopt);
@@ -32,17 +59,17 @@ int parse_args(int argc, char* argv[], char** env, char** template) {
                 break;
         }
     }
-    return is_v;
+    return is_exit;
 }
 
 int main(int argc, char* argv[]) {
     char* env_filename = NULL;
     char* tmp_filename = NULL;
 
-    int opt = parse_args(argc, argv, &env_filename, &tmp_filename);
+    int ext = parse_args(argc, argv, &env_filename, &tmp_filename);
     if (env_filename == NULL || tmp_filename == NULL) {
-        if (opt) {
-            return 0;
+        if (ext) {
+            exit(0);
         } else {
             fprintf(stderr, "Please, provide .env and template file path's\n");
             exit(1);
