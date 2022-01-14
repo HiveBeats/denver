@@ -15,7 +15,8 @@ void print_help() {
            "values.\n\nUsage:\n");
     printf("  denver [-e <arg>...] [-t <arg>...]\n");
     printf("  denver -h\n\nOptions:\n");
-    printf("  -e FILE                Specify a path to a .env file (default: ./.env)\n"
+    printf("  -e FILE                Specify a path to a .env file (default: "
+           "./.env)\n"
            "                           ex: ./test/custom-env\n\n");
     printf("  -t FILE                Specify a path to a template file (can be "
            "named differently).\n"
