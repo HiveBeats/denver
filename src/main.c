@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (env_filename == NULL) {
-        env_filename = malloc(sizeof(char) * 5);
+        env_filename = malloc(sizeof(char) * strlen(DEFAULT_ENV) + 1);
         env_filename = strcpy(env_filename, DEFAULT_ENV);
     }
 
