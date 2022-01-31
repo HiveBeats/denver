@@ -28,6 +28,8 @@ void print_help() {
     printf("  -t FILE                Specify a path to a template file (can be "
            "named differently).\n"
            "                           ex: ./test/template.txt\n\n");
+    printf("  -s                     Include that argument to self - process "
+           ".env before.\n");
     printf("  -h                     Get helpful usage information.\n\n");
     printf("  -v                     Get current installed version.\n\n");
 }
