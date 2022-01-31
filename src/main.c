@@ -46,7 +46,7 @@ arg_t parse_args(int argc, char* argv[]) {
     arg_t result = { .is_exit=0, .process_self=0 };
 
     int opt;
-    while ((opt = getopt(argc, argv, "e:t:vh")) != -1) {
+    while ((opt = getopt(argc, argv, "e:t:vhs")) != -1) {
         switch (opt) {
             case 'v':
                 print_ver();
