@@ -10,8 +10,7 @@
 #define AUTHOR "HiveBeats"
 #define DEFAULT_ENV ".env"
 
-typedef struct arg_opt
-{
+typedef struct arg_opt {
     char* env_name;
     char* template_name;
     int is_exit;
@@ -43,7 +42,7 @@ void print_ver() {
 }
 
 arg_t parse_args(int argc, char* argv[]) {
-    arg_t result = { .is_exit=0, .process_self=0 };
+    arg_t result = {.is_exit = 0, .process_self = 0};
 
     int opt;
     while ((opt = getopt(argc, argv, "e:t:vhs")) != -1) {
@@ -96,8 +95,8 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "Please, provide a template file path's\n");
         exit(1);
     }
-    
-    //set default env name, if needed
+
+    // set default env name, if needed
     if (args.env_name == NULL) {
         args.env_name = malloc(sizeof(char) * strlen(DEFAULT_ENV) + 1);
         args.env_name = strcpy(args.env_name, DEFAULT_ENV);
