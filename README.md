@@ -31,9 +31,9 @@ It was designed to work well for my docker-compose deployment of that <a href="h
 ## Getting Started
 
 ### Install
-Download the latest binary from the releases page. For example, in order to download version 0.0.2 of this plugin run the following step:\
+Download the latest binary from the releases page. For example, in order to download version 0.0.4 of this plugin run the following step:\
 ```sh
-curl -LO https://github.com/HiveBeats/denver/releases/download/v0.0.2/denver.linux-amd64.tar.gz
+curl -LO https://github.com/HiveBeats/denver/releases/download/v0.0.4/denver.linux-amd64.tar.gz
 tar xfz denver.linux-amd64.tar.gz
 ```
 
