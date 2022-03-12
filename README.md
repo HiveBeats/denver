@@ -98,9 +98,9 @@ Distributed under the MIT License. See `License` for more information.
 <!-- CONTACT -->
 ## Contact && Donate
 
-Project Link: [https://github.com/HiveBeats/denver](https://github.com/HiveBeats/denver)
-Buy me a coffee:
-BTC 1BTjW4XxiEduRK1dLAbtF1Up88YG9Erk3V
+Project Link: [https://github.com/HiveBeats/denver](https://github.com/HiveBeats/denver)\
+Buy me a coffee:\
+BTC 1BTjW4XxiEduRK1dLAbtF1Up88YG9Erk3V\
 ETH 0x94aa0705a8cad334270b019d9764ee916c9851ab
 
 
