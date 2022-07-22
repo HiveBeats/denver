@@ -1,0 +1,52 @@
+#include "list.h"
+#include "stdlib.h"
+
+t_list* get_last(t_list* list) {
+    t_list* last = list->next;
+
+    while (list->next != NULL) {
+        last = list->next;
+    }
+
+    if (last == NULL)
+        return list;
+
+    return last;
+}
+
+t_list* create_node(void* item) {
+    t_list* node = (t_list*)malloc(sizeof(t_list));
+    node->data = item;
+    node->next = NULL;
+
+    return node;
+}
+
+t_list* list_init() {
+    t_list* res = (t_list*)malloc(sizeof(t_list));
+    res->next = NULL;
+
+    return res;
+}
+
+t_list* list_add(t_list* list, void* item) {
+    t_list* node = create_node(item);
+
+    t_list* last = get_last(list);
+    last->next = node;
+}
+
+t_list* list_clear(t_list* list) {
+    t_list* current = list;
+    t_list* next = list->next;
+    do {
+        free(current);
+
+        current = next;
+        next = next->next;
+    } while (next != NULL);
+}
+
+t_list* list_is_empty(t_list* list) {
+    return list->next == NULL && list->data == NULL;
+}
