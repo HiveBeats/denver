@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-typedef char* stack_data;
+typedef size_t stack_data;
 
 // Define a structure to be used as the stack item
 struct t_item {

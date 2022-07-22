@@ -29,6 +29,13 @@ t_list* list_init() {
     return res;
 }
 
+t_list* list_init_w(void* item) {
+    t_list* list = list_init();
+    list->data = item;
+
+    return list;
+}
+
 t_list* list_add(t_list* list, void* item) {
     t_list* node = create_node(item);
 
