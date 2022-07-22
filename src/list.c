@@ -1,7 +1,7 @@
 #include "list.h"
 #include "stdlib.h"
 
-t_list* get_last(t_list* list) {
+static t_list* get_last(t_list* list) {
     t_list* last = list->next;
 
     while (list->next != NULL) {
@@ -14,7 +14,7 @@ t_list* get_last(t_list* list) {
     return last;
 }
 
-t_list* create_node(void* item) {
+static t_list* create_node(void* item) {
     t_list* node = (t_list*)malloc(sizeof(t_list));
     node->data = item;
     node->next = NULL;
@@ -36,14 +36,14 @@ t_list* list_init_w(void* item) {
     return list;
 }
 
-t_list* list_add(t_list* list, void* item) {
+void list_add(t_list* list, void* item) {
     t_list* node = create_node(item);
 
     t_list* last = get_last(list);
     last->next = node;
 }
 
-t_list* list_clear(t_list* list) {
+void list_clear(t_list* list) {
     t_list* current = list;
     t_list* next = list->next;
     do {
@@ -54,6 +54,6 @@ t_list* list_clear(t_list* list) {
     } while (next != NULL);
 }
 
-t_list* list_is_empty(t_list* list) {
+int list_is_empty(t_list* list) {
     return list->next == NULL && list->data == NULL;
 }
