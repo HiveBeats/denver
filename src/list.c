@@ -44,6 +44,9 @@ void list_add(t_list* list, void* item) {
 }
 
 void list_clear(t_list* list) {
+    if (list == NULL)
+        return;
+
     t_list* current = list;
     t_list* next = list->next;
     do {
@@ -55,5 +58,5 @@ void list_clear(t_list* list) {
 }
 
 int list_is_empty(t_list* list) {
-    return list->next == NULL && list->data == NULL;
+    return list == NULL || (list->next == NULL && list->data == NULL);
 }
