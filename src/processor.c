@@ -1,79 +1,48 @@
 #include "processor.h"
+#include "parser.h"
+#include "sb.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-static char* concatn_things(const char* attach1, const char* attach2,
-                            const char* attach3) {
-    size_t sum_size = strlen(attach1) + strlen(attach2) + strlen(attach3) + 1;
-
-    char* buffer = (char*)malloc(sum_size);
-    if (buffer == NULL) {
-        fprintf(stderr, "Can't allocate memory!\n");
-        exit(1);
-    }
-    sprintf(buffer, "%s%s%s", attach1, attach2, attach3);
-
-    return buffer;
-}
-
 char* process_source(env_arr_t variables, const char* source) {
-    int start_idx = 0;
-    int end_idx = 0;
+    t_list* tokens = parse_tokens(source);
+    t_list* current = tokens;
 
-    // search for a token
-    char* sign = strchr(source, '$');
-    if (sign != NULL && sign[1] == '{') {
-        start_idx = (int)(sign - source);
+    StringBuilder* sb = sb_create();
+    size_t p = 0;
 
-        char* csign = strchr(sign, '}');
-        if (csign == NULL) {
-            fprintf(stderr, "Unclosed template found on index: %d\n",
-                    start_idx);
-            exit(1);
-        }
-        end_idx = (int)(csign - source);
+    while (!list_is_empty(current)) {
+        t_token* token = (t_token*)current->data;
 
-        // get template variable name
-        char* name;
-        name = (char*)malloc(sizeof(char) * ((end_idx - start_idx + 2) + 1));
-        if (name == NULL) {
-            fprintf(stderr, "Can't allocate memory!\n");
-            exit(1);
-        }
+        size_t left = p;
+        p = token->start;
 
-        int ndx = 0;
-        for (int j = start_idx + 2; j < end_idx; j++) {
-            name[ndx] = source[j];
-            ndx++;
-        }
-        name[ndx] = '\0';
+        const char* substr = source + left;
+        sb_appendn(sb, substr, p - left);
 
         // find environment variable value
-        env_t* env = find_env(variables, name);
+        env_t* env = find_env(variables, token->name);
         if (env == NULL) {
-            fprintf(stderr, "Env variable %s not found.", name);
+            fprintf(stderr, "Env variable %s not found.", token->name);
             exit(1);
         }
         char* env_value = env->value;
+        sb_append(sb, env_value);
 
-        // concat string for that template variable
-        char* buffer = (char*)malloc(start_idx + 1);
-        if (buffer == NULL) {
-            fprintf(stderr, "Can't allocate memory!\n");
-            exit(1);
-        }
+        free(token->name);
 
-        strncpy(buffer, source, start_idx);
-        char* result = concatn_things(buffer, env_value, source + end_idx + 1);
-
-        free(buffer);
-        free(name);
-
-        // search and process for next token
-        return process_source(variables, result);
+        p = token->end + 1;
+        current = current->next;
     }
+    //to print the end of text after last token
+    const char* substr = source + p;
+    sb_appendn(sb, substr, p - 1);
 
-    // return if no token is found
-    return (char*)source;
+    list_clear(tokens);
+
+    char* result = sb_concat(sb);
+    sb_free(sb);
+
+    return result;
 }
