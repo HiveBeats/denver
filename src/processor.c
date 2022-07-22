@@ -21,12 +21,23 @@ char* process_source(env_arr_t variables, const char* source) {
         const char* substr = source + left;
         sb_appendn(sb, substr, p - left);
 
-        sb_append(sb, token->name);
+        // find environment variable value
+        env_t* env = find_env(variables, token->name);
+        if (env == NULL) {
+            fprintf(stderr, "Env variable %s not found.", token->name);
+            exit(1);
+        }
+        char* env_value = env->value;
+        sb_append(sb, env_value);
+
         free(token->name);
 
-        p = token->end;
+        p = token->end + 1;
         current = current->next;
     }
+    //to print the end of text after last token
+    const char* substr = source + p;
+    sb_appendn(sb, substr, p - 1);
 
     list_clear(tokens);
 
