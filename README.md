@@ -24,16 +24,16 @@
 
 It's a templating engine that fills template variables with values from provided .env file. 
 <br/>
-It was designed to work well for my docker-compose deployment of that <a href="https://github.com/HiveBeats/ServiceQueueBackendEF">Backend project</a>
+It was designed to work well for my docker-compose deployments
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
 ### Install
-Download the latest binary from the releases page. For example, in order to download version 0.0.4 of this plugin run the following step:\
+Download the latest binary from the releases page. For example, in order to download version 0.0.5 of this plugin run the following step:\
 ```sh
-curl -LO https://github.com/HiveBeats/denver/releases/download/v0.0.4/denver.linux-amd64.tar.gz
+curl -LO https://github.com/HiveBeats/denver/releases/download/v0.0.5/denver.linux-amd64.tar.gz
 tar xfz denver.linux-amd64.tar.gz
 ```
 
@@ -100,8 +100,8 @@ Distributed under the MIT License. See `License` for more information.
 
 Project Link: [https://github.com/HiveBeats/denver](https://github.com/HiveBeats/denver)\
 Buy me a coffee:\
-BTC 1BTjW4XxiEduRK1dLAbtF1Up88YG9Erk3V\
-ETH 0x94aa0705a8cad334270b019d9764ee916c9851ab
+BTC 1Nvb7A45ZGmS5zSSyDWWDFV7CnCYGKSUPV\
+TON EQBEUaq3T5J8ydqpU_90DCiZ5Gqj-IugXaB_iFW0plUk8cxu
 
 
 
