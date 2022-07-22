@@ -79,6 +79,36 @@ int sb_append(StringBuilder* sb, const char* str) {
 }
 
 /*
+ * sb_appendn adds a copy of given-size substring to a StringBuilder.
+ */
+int sb_appendn(StringBuilder* sb, const char* str, size_t size) {
+    StringFragment* frag = NULL;
+
+    if (NULL == str || '\0' == *str)
+        return sb->length;
+
+    int length = size;
+    frag = (StringFragment*)malloc(sizeof(StringFragment) +
+                                   (sizeof(char) * length));
+    if (NULL == frag)
+        return SB_FAILURE;
+
+    frag->next = NULL;
+    frag->length = length;
+    memcpy((void*)&frag->str, (const void*)str, sizeof(char) * (length + 1));
+
+    sb->length += length;
+    if (NULL == sb->root)
+        sb->root = frag;
+    else
+        sb->trunk->next = frag;
+
+    sb->trunk = frag;
+
+    return sb->length;
+}
+
+/*
  * sb_appendf adds a copy of the given formatted string to a StringBuilder.
  */
 int sb_appendf(StringBuilder* sb, const char* format, ...) {
