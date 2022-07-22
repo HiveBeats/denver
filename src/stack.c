@@ -30,10 +30,8 @@ t_stack* stack_init() {
 // Returns: void
 //--------------------------------------------
 void stack_clear(t_stack* stack) {
-    struct t_item* temp;
-
     if (!stack_is_empty(stack)) {
-        temp = stack->top;
+        struct t_item* temp = stack->top;
 
         // Scan stack and free all nodes
         while (stack->top != NULL) {
@@ -51,25 +49,23 @@ void stack_clear(t_stack* stack) {
 //		or FALSE if the stack_push failed.
 //--------------------------------------------
 int stack_push(t_stack* stack, stack_data data) {
-    struct t_item* newNode;
-
     // Create a new node and insert the data
-    newNode = (struct t_item*)malloc(sizeof(struct t_item));
+    struct t_item* node = (struct t_item*)malloc(sizeof(struct t_item));
     // Check to see if memory allocation failed
-    if (newNode == NULL)
+    if (node == NULL)
         return FALSE;
     // If all OK then insert the data
-    newNode->data = data;
-    newNode->next = NULL; // Very important to init this to NULL
+    node->data = data;
+    node->next = NULL; // Very important to init this to NULL
 
     // Check to see if the stack is empty
     if (stack_is_empty(stack)) {
         // stack_push new node as first in the stack
-        stack->top = newNode;
+        stack->top = node;
     } else {
         // stack_push on top of the stack
-        newNode->next = stack->top;
-        stack->top = newNode;
+        node->next = stack->top;
+        stack->top = node;
     }
     return TRUE; // Signal successful stack_push
 }
@@ -81,19 +77,16 @@ int stack_push(t_stack* stack, stack_data data) {
 //		or FALSE if the stack_pop failed.
 //--------------------------------------------
 stack_data stack_pop(t_stack* stack) {
-    stack_data data;
-    struct t_item* temp;
-
     // Check for empty stack
     if (stack_is_empty(stack))
         return NULL; // Return null element if empty
 
     // Remove the top item from the stack
-    temp = stack->top;
+    struct t_item* temp = stack->top;
     stack->top = stack->top->next;
 
     // Copy the data from the top item for return
-    data = temp->data;
+    stack_data data = temp->data;
 
     // Free the removed node
     free(temp);
