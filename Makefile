@@ -4,6 +4,7 @@ BIN_DIR := bin
 # or . if you want it in the current directory
 
 EXE := $(BIN_DIR)/denver
+TEST_EXE := $(BIN_DIR)/test
 SRC := $(shell find src/ ! -name "test_processor.c" -name "*.c")
 TEST_SRC := $(shell find src/ ! -name "main.c" -name "*.c")
 
@@ -28,6 +29,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(BIN_DIR) $(OBJ_DIR):
 	mkdir -p $@
 
+test: $(TEST_EXE)
+
+$(TEST_EXE): $(TEST_OBJ) | $(BIN_DIR)
+	$(CC) $(LDFLAGS) ./$^ $(LDLIBS) -o ./$@
+
+$(BIN_DIR) $(OBJ_DIR):
+	mkdir -p $@
+	
 clean:
 	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR)
 
